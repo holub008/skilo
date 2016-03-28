@@ -5,7 +5,7 @@
 import os
 import sys
 
-K=1
+K=2
 DEFAULT_SCORE = 1000
 OUT_PATH = "./elo.tsv"
 MIN_DATE = "2000.00.00"
@@ -27,7 +27,7 @@ class SupportFiler:
 			(winner id, loser id)
 		"""
 		##first sort by order of placement - should already be sorted
-		results.sort(key = lambda x:x[2])
+		results.sort(key = lambda x: int(x[2]))
 
 		## now generate all winner/loser pairs
 		victory_pairs = []		
@@ -160,10 +160,11 @@ class EloRunner():
 			score_sums[winner_id] += outcome_winner
 			score_sums[loser_id] += outcome_loser
 			
+			
 		for skier_id in score_sums.keys():
 			exp = self.get_elo(date,skier_id)
 			self.add_elo(date, skier_id, exp + K*score_sums[skier_id])
-		
+			
 			##keep track of the number of races participated in
 			if not skier_id in self.race_count:
 				self.race_count[skier_id] = 0
